@@ -7,6 +7,11 @@
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
+# Install Git
+RUN apt-get update && \
+    apt-get install -y git && \
+    apt-get clean
+    
 # Set the working directory in the container
 WORKDIR /app
 
