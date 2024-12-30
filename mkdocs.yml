@@ -4,3 +4,4 @@ nav:
   - Home: index.md
 theme:
   name: material
+site_dir: site
