@@ -1,3 +1,8 @@
+#sh commands to build and run container:
+#Build the Docker image
+#docker build -t datascience-template .
+# Run the Docker container
+# docker run -p 8888:8888 datascience-template
 
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
