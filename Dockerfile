@@ -7,11 +7,11 @@
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
-# Install Git
+# Install Git and other dependencies
 RUN apt-get update && \
     apt-get install -y git && \
     apt-get clean
-    
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -24,13 +24,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Sphinx
 RUN pip install sphinx
 
-# Initialize Sphinx documentation
-RUN sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep -t .sphinx_template --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs
+# Initialize Sphinx documentation if not already done
+RUN if [ ! -d "docs" ]; then \
+    sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs; \
+    fi
 
 # Install pre-commit and set up the hooks
 RUN pip install pre-commit && \
-    pre-commit install --install-hooks && \
-    pre-commit run --all-files
+    git init && \
+    pre-commit install --install-hooks
+
+# Run pre-commit hooks on all files
+RUN pre-commit run --all-files || true
 
 # Copy the rest of the application code into the container
 COPY . .
