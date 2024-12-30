@@ -9,7 +9,7 @@ FROM python:3.9-slim
 
 # Install Git and other dependencies
 RUN apt-get update && \
-    apt-get install -y git && \
+    apt-get install -y git make && \
     apt-get clean
 
 # Set the working directory in the container
