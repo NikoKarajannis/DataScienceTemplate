@@ -1,7 +1,0 @@
-
-site_name: My Project Documentation
-nav:
-  - Home: index.md
-theme:
-  name: material
-site_dir: site
