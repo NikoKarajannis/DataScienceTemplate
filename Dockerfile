@@ -30,6 +30,9 @@ RUN pip install pre-commit && \
 # Copy the rest of the application code into the container
 COPY . .
 
+# Build the Sphinx documentation
+RUN make -C docs html
+
 # Expose port 8888 for Jupyter Notebook
 EXPOSE 8888
 
