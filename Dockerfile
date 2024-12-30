@@ -22,15 +22,15 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Sphinx
-RUN pip install sphinx jupyter
+RUN pip install jupyter
 
 # Copy the rest of the application code into the container
 COPY . .
 
 # Initialize Sphinx documentation if not already done
-RUN if [ ! -d "docs" ]; then \
-    sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs; \
-    fi
+#RUN if [ ! -d "docs" ]; then \
+#    sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs; \
+#    fi
 
 # Ensure the directory is a Git repository
 #RUN if [ ! -d ".git" ]; then \
@@ -45,7 +45,7 @@ RUN if [ ! -d "docs" ]; then \
 #RUN pre-commit run --all-files || true
 
 # Build the Sphinx documentation
-RUN make -C docs html
+#RUN make -C docs html
 
 # Expose port 8888 for Jupyter Notebook
 EXPOSE 8888
