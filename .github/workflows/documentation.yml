@@ -27,17 +27,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install mkdocs mkdocs-material
+        pip install sphinx
 
-    - name: Build MkDocs site
+    - name: Build Sphinx documentation
       run: |
-        mkdocs build --site-dir site
+        cd docs
+        make html
 
     - name: Commit and push changes
       run: |
         git config --local user.name "Niko Karajannis"
         git config --local user.email "niko.karajannis@gmx.de"
-        git add site || true
+        git add docs/_build/html || true
         git diff-index --quiet HEAD || git commit -m "Automated documentation update"
         git push
       env:
