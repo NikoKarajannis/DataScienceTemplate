@@ -32,6 +32,11 @@ RUN if [ ! -d "docs" ]; then \
     sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs; \
     fi
 
+# Ensure the directory is a Git repository
+RUN if [ ! -d ".git" ]; then \
+    git init; \
+    fi
+
 # Install pre-commit and set up the hooks
 RUN pip install pre-commit && \
     pre-commit install --install-hooks
