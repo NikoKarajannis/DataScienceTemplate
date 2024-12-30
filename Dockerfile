@@ -33,16 +33,16 @@ RUN if [ ! -d "docs" ]; then \
     fi
 
 # Ensure the directory is a Git repository
-RUN if [ ! -d ".git" ]; then \
-    git init; \
-    fi
+#RUN if [ ! -d ".git" ]; then \
+  #  git init; \
+ #   fi
 
 # Install pre-commit and set up the hooks
-RUN pip install pre-commit && \
-    pre-commit install --install-hooks
+#RUN pip install pre-commit && \
+#    pre-commit install --install-hooks
 
 # Run pre-commit hooks on all files
-RUN pre-commit run --all-files || true
+#RUN pre-commit run --all-files || true
 
 # Build the Sphinx documentation
 RUN make -C docs html
