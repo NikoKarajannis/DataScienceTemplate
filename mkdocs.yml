@@ -4,3 +4,4 @@ nav:
   - Home: index.md
 theme:
   name: material
+docs_dir: docs
