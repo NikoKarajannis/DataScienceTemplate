@@ -16,6 +16,12 @@ COPY requirements.txt .
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install Sphinx
+RUN pip install sphinx
+
+# Initialize Sphinx documentation
+RUN sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep -t .sphinx_template --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs
+
 # Install pre-commit and set up the hooks
 RUN pip install pre-commit && \
     pre-commit install --install-hooks && \
