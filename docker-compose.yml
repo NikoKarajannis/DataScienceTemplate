@@ -1,0 +1,16 @@
+# This docker-compose.yml file will set up a service for your data science project, map the current directory to the /app directory in the container, and run the Jupyter Notebook server. You can start the services with:
+# docker-compose up And stop them with: docker-compose down
+
+
+version: '3.8'
+
+services:
+  datascience:
+    build: .
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
