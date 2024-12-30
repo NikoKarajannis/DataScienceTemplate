@@ -37,8 +37,8 @@ jobs:
       run: |
         git config --local user.name "Niko Karajannis"
         git config --local user.email "niko.karajannis@gmx.de"
-        git add site
-        git commit -m "Automated documentation update"
+        git add site || true
+        git diff-index --quiet HEAD || git commit -m "Automated documentation update"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
