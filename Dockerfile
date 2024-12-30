@@ -24,6 +24,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Sphinx
 RUN pip install sphinx
 
+# Copy the rest of the application code into the container
+COPY . .
+
 # Initialize Sphinx documentation if not already done
 RUN if [ ! -d "docs" ]; then \
     sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs; \
@@ -31,14 +34,10 @@ RUN if [ ! -d "docs" ]; then \
 
 # Install pre-commit and set up the hooks
 RUN pip install pre-commit && \
-    git init && \
     pre-commit install --install-hooks
 
 # Run pre-commit hooks on all files
 RUN pre-commit run --all-files || true
-
-# Copy the rest of the application code into the container
-COPY . .
 
 # Build the Sphinx documentation
 RUN make -C docs html
