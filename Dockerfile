@@ -16,6 +16,11 @@ COPY requirements.txt .
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install pre-commit and set up the hooks
+RUN pip install pre-commit && \
+    pre-commit install --install-hooks && \
+    pre-commit run --all-files
+
 # Copy the rest of the application code into the container
 COPY . .
 
