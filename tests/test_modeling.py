@@ -1,6 +1,6 @@
 
 import pytest
-from src.modeling import predict, train
+# from src.modeling import predict, train
 
 
 def test_predict():
