@@ -18,3 +18,7 @@ venv/
 *.swp
 *.log
 *.tmp
+
+.env
+.pytest_cache/
+README.md

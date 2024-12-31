@@ -9,8 +9,9 @@ FROM python:3.9-slim
 
 # Install Git and other dependencies
 RUN apt-get update && \
-    apt-get install -y git make && \
-    apt-get clean
+    apt-get install -y git make curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
@@ -21,34 +22,17 @@ COPY requirements.txt .
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Sphinx
-RUN pip install jupyter
-
-# Copy the rest of the application code into the container
-COPY . .
-
-# Initialize Sphinx documentation if not already done
-#RUN if [ ! -d "docs" ]; then \
-#    sphinx-quickstart -q -p "Your Project" -a "Your Name" -v "0.1" --sep --ext-autodoc --ext-doctest --ext-intersphinx --ext-viewcode --makefile --batchfile docs; \
-#    fi
-
-# Ensure the directory is a Git repository
-#RUN if [ ! -d ".git" ]; then \
-  #  git init; \
- #   fi
-
-# Install pre-commit and set up the hooks
-#RUN pip install pre-commit && \
-#    pre-commit install --install-hooks
-
-# Run pre-commit hooks on all files
-#RUN pre-commit run --all-files || true
-
-# Build the Sphinx documentation
-#RUN make -C docs html
+# Install development tools
+RUN pip install --no-cache-dir \
+    jupyter \
+    ipykernel \
+    black \
+    flake8 \
+    pytest \
+    streamlit
 
 # Expose port 8888 for Jupyter Notebook
-EXPOSE 8888
+EXPOSE 8888 8501
 
 # Run the Jupyter Notebook server
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+CMD ["tail", "-f", "/dev/null"]

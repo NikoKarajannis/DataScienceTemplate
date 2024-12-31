@@ -1,16 +1,56 @@
 # This docker-compose.yml file will set up a service for your data science project, map the current directory to the /app directory in the container, and run the Jupyter Notebook server. You can start the services with:
 # docker-compose up And stop them with: docker-compose down
 
-
-version: '3.8'
-
 services:
-  datascience:
-    build: .
+  jupyter:
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8888:8888"
     volumes:
       - .:/app
+      - ~/.gitconfig:/root/.gitconfig
     environment:
+      - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
-    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      - JUPYTER_ENABLE_LAB=yes
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root  --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.notebook_dir=/app
+    restart: unless-stopped
+    container_name: cheetahbello_jupyter
+
+  streamlit:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+      - ~/.gitconfig:/root/.gitconfig
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    command: streamlit hello --server.address=0.0.0.0
+    restart: unless-stopped
+    container_name: cheetahbello_streamlit
+
+  dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8889:8888"
+      - "8502:8501"
+    volumes:
+      - .:/app
+      - ~/.gitconfig:/root/.gitconfig
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - JUPYTER_ENABLE_LAB=yes
+    stdin_open: true
+    tty: true
+    command: tail -f /dev/null
+    restart: unless-stopped
+    container_name: cheetahbello_dev
